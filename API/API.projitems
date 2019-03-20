@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ea94e411-b669-4339-8969-725503991770</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>API</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\EnumValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\SHA512HMAC.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\MarketType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Enums\MessType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\OrderSide.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\OrderState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\OrderType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Enums\ProcType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Enums\SubsType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Enums\SysType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Enums\ActionType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\SKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueBalances.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueBoxState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueDeals.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueLastPrice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueOrderbook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueOrders.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValuePairs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValuePairsDetail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValuePriceByTime.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueRecentTrades.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetAuthorization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetBalance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetBalances.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetBoxState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetDeals.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetLastPrice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetOrderbook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetOrders.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetPairs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetPairsDetail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetPriceByTime.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Get\MessGetRecentTrades.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\MessBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Order.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Send\MessSendControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Send\MessSendSubs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Sends.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Subs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Transport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\WebSocket.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Model\" />
+    <Folder Include="$(MSBuildThisFileDirectory)WebSocket\Enums\" />
+  </ItemGroup>
+</Project>
