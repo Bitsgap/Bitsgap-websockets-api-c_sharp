@@ -15,7 +15,7 @@ namespace API.WebSocket
 
         #region private variables
 
-        private const string DefaultUrl = "wss://bitsgap.com/ws/?wsguid=";
+        private const string DefaultUrl = @"wss://bitsgap.com/ws/?wsguid=";
         private const int LogMessSize = 500;
 
         private readonly string ws_url;
