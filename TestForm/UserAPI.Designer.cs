@@ -51,6 +51,9 @@
             this.tabDeals = new System.Windows.Forms.TabPage();
             this.dgDeals = new System.Windows.Forms.DataGridView();
             this.lbDeals = new System.Windows.Forms.Label();
+            this.tabMessages = new System.Windows.Forms.TabPage();
+            this.lbMessages = new System.Windows.Forms.Label();
+            this.dgMessages = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.rbDemo = new System.Windows.Forms.RadioButton();
@@ -58,8 +61,7 @@
             this.bSmart = new System.Windows.Forms.Button();
             this.lbMarketSelect = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tbKeyError = new System.Windows.Forms.TextBox();
-            this.chkBad = new System.Windows.Forms.CheckBox();
+            this.tbKeyStatus = new System.Windows.Forms.TextBox();
             this.lbKeysTime = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lbMarkets = new System.Windows.Forms.ListBox();
@@ -72,9 +74,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.clbName = new System.Windows.Forms.CheckedListBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.tabMessages = new System.Windows.Forms.TabPage();
-            this.dgMessages = new System.Windows.Forms.DataGridView();
-            this.lbMessages = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabBalance.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -89,13 +88,13 @@
             this.panel7.SuspendLayout();
             this.tabDeals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgDeals)).BeginInit();
+            this.tabMessages.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgMessages)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.tabMessages.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgMessages)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -341,6 +340,38 @@
             this.lbDeals.Size = new System.Drawing.Size(786, 13);
             this.lbDeals.TabIndex = 1;
             // 
+            // tabMessages
+            // 
+            this.tabMessages.Controls.Add(this.lbMessages);
+            this.tabMessages.Controls.Add(this.dgMessages);
+            this.tabMessages.Location = new System.Drawing.Point(4, 22);
+            this.tabMessages.Name = "tabMessages";
+            this.tabMessages.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMessages.Size = new System.Drawing.Size(792, 256);
+            this.tabMessages.TabIndex = 3;
+            this.tabMessages.Text = "Messages";
+            this.tabMessages.UseVisualStyleBackColor = true;
+            // 
+            // lbMessages
+            // 
+            this.lbMessages.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lbMessages.Location = new System.Drawing.Point(3, 240);
+            this.lbMessages.Name = "lbMessages";
+            this.lbMessages.Size = new System.Drawing.Size(786, 13);
+            this.lbMessages.TabIndex = 4;
+            // 
+            // dgMessages
+            // 
+            this.dgMessages.AllowUserToAddRows = false;
+            this.dgMessages.AllowUserToDeleteRows = false;
+            this.dgMessages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgMessages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgMessages.Location = new System.Drawing.Point(3, 3);
+            this.dgMessages.Name = "dgMessages";
+            this.dgMessages.ReadOnly = true;
+            this.dgMessages.Size = new System.Drawing.Size(786, 250);
+            this.dgMessages.TabIndex = 3;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.groupBox3);
@@ -411,8 +442,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.tbKeyError);
-            this.groupBox2.Controls.Add(this.chkBad);
+            this.groupBox2.Controls.Add(this.tbKeyStatus);
             this.groupBox2.Controls.Add(this.lbKeysTime);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.lbMarkets);
@@ -423,25 +453,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Params";
             // 
-            // tbKeyError
+            // tbKeyStatus
             // 
-            this.tbKeyError.Enabled = false;
-            this.tbKeyError.Location = new System.Drawing.Point(137, 59);
-            this.tbKeyError.Multiline = true;
-            this.tbKeyError.Name = "tbKeyError";
-            this.tbKeyError.Size = new System.Drawing.Size(123, 59);
-            this.tbKeyError.TabIndex = 10;
-            // 
-            // chkBad
-            // 
-            this.chkBad.AutoSize = true;
-            this.chkBad.Enabled = false;
-            this.chkBad.Location = new System.Drawing.Point(137, 36);
-            this.chkBad.Name = "chkBad";
-            this.chkBad.Size = new System.Drawing.Size(45, 17);
-            this.chkBad.TabIndex = 9;
-            this.chkBad.Text = "Bad";
-            this.chkBad.UseVisualStyleBackColor = true;
+            this.tbKeyStatus.Location = new System.Drawing.Point(137, 36);
+            this.tbKeyStatus.Multiline = true;
+            this.tbKeyStatus.Name = "tbKeyStatus";
+            this.tbKeyStatus.ReadOnly = true;
+            this.tbKeyStatus.Size = new System.Drawing.Size(123, 82);
+            this.tbKeyStatus.TabIndex = 10;
             // 
             // lbKeysTime
             // 
@@ -571,38 +590,6 @@
             this.panel2.Size = new System.Drawing.Size(800, 282);
             this.panel2.TabIndex = 1;
             // 
-            // tabMessages
-            // 
-            this.tabMessages.Controls.Add(this.lbMessages);
-            this.tabMessages.Controls.Add(this.dgMessages);
-            this.tabMessages.Location = new System.Drawing.Point(4, 22);
-            this.tabMessages.Name = "tabMessages";
-            this.tabMessages.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMessages.Size = new System.Drawing.Size(792, 256);
-            this.tabMessages.TabIndex = 3;
-            this.tabMessages.Text = "Messages";
-            this.tabMessages.UseVisualStyleBackColor = true;
-            // 
-            // dgMessages
-            // 
-            this.dgMessages.AllowUserToAddRows = false;
-            this.dgMessages.AllowUserToDeleteRows = false;
-            this.dgMessages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgMessages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgMessages.Location = new System.Drawing.Point(3, 3);
-            this.dgMessages.Name = "dgMessages";
-            this.dgMessages.ReadOnly = true;
-            this.dgMessages.Size = new System.Drawing.Size(786, 250);
-            this.dgMessages.TabIndex = 3;
-            // 
-            // lbMessages
-            // 
-            this.lbMessages.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lbMessages.Location = new System.Drawing.Point(3, 240);
-            this.lbMessages.Name = "lbMessages";
-            this.lbMessages.Size = new System.Drawing.Size(786, 13);
-            this.lbMessages.TabIndex = 4;
-            // 
             // UserAPI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -628,6 +615,8 @@
             this.panel7.ResumeLayout(false);
             this.tabDeals.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgDeals)).EndInit();
+            this.tabMessages.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgMessages)).EndInit();
             this.panel1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -636,8 +625,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.tabMessages.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgMessages)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -665,8 +652,7 @@
         private System.Windows.Forms.Label lbOrders;
         private System.Windows.Forms.Label lbDeals;
         private System.Windows.Forms.Label lbKeysTime;
-        private System.Windows.Forms.CheckBox chkBad;
-        private System.Windows.Forms.TextBox tbKeyError;
+        private System.Windows.Forms.TextBox tbKeyStatus;
         private System.Windows.Forms.Label lbMarketSelect;
         private System.Windows.Forms.DataGridView dgBalanceAvailable;
         private System.Windows.Forms.Panel panel4;

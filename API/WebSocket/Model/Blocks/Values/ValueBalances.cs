@@ -6,19 +6,13 @@ namespace API.WebSocket.Model.Blocks.Values
     class ValueBalances : ValueBase
     {
         /// <summary>
-        /// Last update time, UTS with UTC+00:00
+        /// Data by key
         /// </summary>
-        [JsonProperty("uts")]
-        public decimal Time { get; set; }
-
-        /// <summary>
-        /// Balance data
-        /// </summary>
-        [JsonProperty("markets")]
-        public Dictionary<string, BalancesData> Balances { get; set; }
+        [JsonProperty("value")]
+        public Dictionary<string, DataBalances> Value { get; set; }
     }
 
-    public class BalancesData
+    public class DataBalances
     {
         /// <summary>
         /// Last update time for the market, UTS with UTC+00:00
@@ -27,21 +21,15 @@ namespace API.WebSocket.Model.Blocks.Values
         public decimal Time { get; set; }
 
         /// <summary>
-        /// Available balance for all data
-        /// </summary>
-        [JsonProperty("balance", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, string> AvailableBalance { get => Available; set => Available = value; }
-
-        /// <summary>
-        /// Available balance for single request
+        /// Available balance
         /// </summary>
         [JsonProperty("available", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, string> Available;
+        public Dictionary<string, string> Available { get; set; }
 
         /// <summary>
         /// Total balance
         /// </summary>
         [JsonProperty("total", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, string> Total;
+        public Dictionary<string, string> Total { get; set; }
     }
 }

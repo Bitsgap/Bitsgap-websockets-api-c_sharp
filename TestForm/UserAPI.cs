@@ -21,10 +21,10 @@ namespace TestForm
         private WebSocket socket;
 
         private ValuePairs pairs;
-        private ValueBoxState box_state;
-        private ValueBalances balance = new ValueBalances();
-        private Dictionary<string, ValueOrders> orders = new Dictionary<string, ValueOrders>();
-        private Dictionary<string, ValueDeals> deals = new Dictionary<string, ValueDeals>();
+        private Dictionary<MarketType, DataAPIKey> api_keys;
+        private Dictionary<MarketType, DataBalances> balances;
+        private Dictionary<MarketType, List<DataOrder>> orders;
+        private Dictionary<MarketType, List<DataDeal>> deals;
 
         private bool smart_subs = false;
 
@@ -71,16 +71,16 @@ namespace TestForm
             socket?.Send(Subs.UnsubsAll());
         }
 
-        private MarketType GetMarket()
+        private MarketType GetMarket(bool no_message = false)
         {
             if (lbMarkets.SelectedItem == null)
             {
-                MessageBox.Show("No Markets selected", "Warning");
+                if (!no_message)
+                    MessageBox.Show("No Markets selected", "Warning");
                 return MarketType.Empty;
             }
 
             string market = lbMarkets.SelectedItem.ToString();
-            market = market.Replace(SKey.demo, string.Empty);
             return EnumValue.GetEnum<MarketType>(market);
         }
 
@@ -186,8 +186,7 @@ namespace TestForm
             lbMessages.Text = string.Empty;
 
             lbMarkets.Items.Clear();
-            chkBad.Checked = false;
-            tbKeyError.Text = string.Empty;
+            tbKeyStatus.Text = string.Empty;
             lbMarketSelect.Text = "no market selected";
 
             dgBalanceAvailable.DataSource = null;
@@ -195,6 +194,11 @@ namespace TestForm
             dgOrders.DataSource = null;
             dgDeals.DataSource = null;
             dgMessages.DataSource = null;
+
+            api_keys = null;
+            balances = null;
+            orders = null;
+            deals = null;
         }
 
         private void Smart_Click(object sender, EventArgs e)
@@ -344,19 +348,14 @@ namespace TestForm
 
         private void Markets_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (lbMarkets.SelectedItem == null) return;
+            var market = GetMarket(true);
+            if (market == MarketType.Empty) return;
 
-            lbMarketSelect.Text = "market: " + lbMarkets.SelectedItem.ToString();
+            lbMarketSelect.Text = "market: " + EnumValue.GetValue(market);
 
             if (rbReal.Checked)
             {
-                if (box_state.Box.TryGetValue(lbMarkets.SelectedItem.ToString(), out MarketKeys keys))
-                {
-                    var key = keys.Keys.First();
-
-                    chkBad.Checked = key.BadKey;
-                    tbKeyError.Text = key.Message;
-                }
+                tbKeyStatus.Text = api_keys[market].Status + "\n  " + api_keys[market].Message;
             }
 
             UpdateBalances();
@@ -372,17 +371,29 @@ namespace TestForm
 
         private void Socket_OnDataBoxState(MessGet data)
         {
-            // save
-            box_state = (data as MessGetBoxState)?.Value;
+            api_keys = new Dictionary<MarketType, DataAPIKey>();
 
-            var markets = (data as MessGetBoxState)?.Value?.Box?
-                        .Where(x => x.Value.Keys.Exists(y => y.Disable == false))
-                        .Select(x => x.Key);
+            // convert market
+            var dict = (data as MessGetBoxState)?.Value;
+            foreach (var item in dict)
+            {
+                var market = EnumValue.GetEnum<MarketType>(item.Key);
+                if (market == MarketType.Empty)
+                {
+                    logger.Error("Undeclared market value: {0}", item.Key);
+                }
+                else
+                {
+                    api_keys.Add(market, item.Value);
+                }
+            }
 
-
-            UpdateMarkets(markets.ToList());
+            UpdateMarkets(api_keys?.Keys.Select(x => EnumValue.GetValue(x)).ToList());
         }
 
+        /// <summary>
+        /// Update markets list on form
+        /// </summary>
         private void UpdateMarkets(List<string> markets)
         {
             // subs to all markets
@@ -391,7 +402,7 @@ namespace TestForm
                 smart_subs = false;
                 foreach (var item in markets)
                 {
-                    var market = EnumValue.GetEnum<MarketType>(item.Replace(SKey.demo, string.Empty));
+                    var market = EnumValue.GetEnum<MarketType>(item);
 
                     if (rbReal.Checked) socket?.Send(Subs.Balance(SubsType.SubsAndGetNextChange, market));
                     socket?.Send(Subs.Orders(SubsType.SubsAndGetExist, market, rbReal.Checked ? SysType.Real : SysType.Demo));
@@ -416,8 +427,8 @@ namespace TestForm
         private void Socket_OnDataBalance(MessGet data)
         {
             // save
-            balance.Balances = balance?.Balances ?? new Dictionary<string, BalancesData>();
-            balance.Balances[(data as MessGetBalance)?.Key.MarketName] = (data as MessGetBalance)?.Value;
+            balances = balances ?? new Dictionary<MarketType, DataBalances>();
+            balances[(data as MessGetBalance).Key.Market] = (data as MessGetBalance)?.Value;
 
             try
             {
@@ -433,8 +444,28 @@ namespace TestForm
 
         private void Socket_OnDataBalances(MessGet data)
         {
-            // save
-            balance = (data as MessGetBalances)?.Value;
+            balances = new Dictionary<MarketType, DataBalances>();
+
+            // convert market
+            var dict = (data as MessGetBalances)?.Value;
+            if (dict != null)
+            {
+                foreach (var item in dict)
+                {
+                    string market_name = item.Key;
+                    market_name = market_name.Replace(SKey.demo, string.Empty);
+                    var market = EnumValue.GetEnum<MarketType>(market_name);
+
+                    if (market == MarketType.Empty)
+                    {
+                        logger.Error("Undeclared market value: {0}", item.Key);
+                    }
+                    else
+                    {
+                        balances.Add(market, item.Value);
+                    }
+                }
+            }
 
             try
             {
@@ -447,16 +478,17 @@ namespace TestForm
 
             if ((data as MessGetBalances)?.Key.SysType == SysType.Demo)
             {
-                UpdateMarkets(balance?.Balances?.Keys.ToList());
+                UpdateMarkets(balances?.Keys.Select(x => EnumValue.GetValue(x)).ToList());
             }
 
             UpdateBalances();
         }
 
+        /// <summary>
+        /// Update balance on form
+        /// </summary>
         private void UpdateBalances()
         {
-            if ((balance == null) || (balance.Balances == null)) return;
-
             try
             {
                 this.BeginInvoke((Action)(() =>
@@ -464,14 +496,17 @@ namespace TestForm
                     dgBalanceAvailable.DataSource = null;
                     dgBalanceTotal.DataSource = null;
 
-                    if (lbMarkets.SelectedItem == null) return;
+                    if (balances == null) return;
 
-                    if (balance.Balances.TryGetValue(lbMarkets.SelectedItem?.ToString(), out BalancesData value))
+                    var market = GetMarket(true);
+                    if (market == MarketType.Empty) return;
+
+                    if (balances.TryGetValue(market, out DataBalances data))
                     {
                         dgBalanceAvailable.AutoGenerateColumns = true;
-                        dgBalanceAvailable.DataSource = value.Available?.ToList();
+                        dgBalanceAvailable.DataSource = data?.Available?.ToList();
                         dgBalanceTotal.AutoGenerateColumns = true;
-                        dgBalanceTotal.DataSource = value.Total?.ToList();
+                        dgBalanceTotal.DataSource = data?.Total?.ToList();
                     }
                 }));
             }
@@ -481,7 +516,8 @@ namespace TestForm
         private void Socket_OnDataOrders(MessGet data)
         {
             // save
-            orders[(data as MessGetOrders)?.Key.MarketName] = (data as MessGetOrders)?.Value;
+            orders = orders ?? new Dictionary<MarketType, List<DataOrder>>();
+            orders[(data as MessGetOrders).Key.Market] = (data as MessGetOrders)?.Value;
 
             try
             {
@@ -503,12 +539,15 @@ namespace TestForm
                 {
                     dgOrders.DataSource = null;
 
-                    if (lbMarkets.SelectedItem == null) return;
+                    if (orders == null) return;
 
-                    if (orders.TryGetValue(lbMarkets.SelectedItem?.ToString(), out ValueOrders value))
+                    var market = GetMarket(true);
+                    if (market == MarketType.Empty) return;
+
+                    if (orders.TryGetValue(market, out List<DataOrder> data))
                     {
                         dgOrders.AutoGenerateColumns = true;
-                        dgOrders.DataSource = value.Orders?.ToList();
+                        dgOrders.DataSource = data;
                     }
                 }));
             }
@@ -518,7 +557,8 @@ namespace TestForm
         private void Socket_OnDataDeals(MessGet data)
         {
             // save
-            deals[(data as MessGetDeals)?.Key.MarketName] = (data as MessGetDeals)?.Value;
+            deals = deals ?? new Dictionary<MarketType, List<DataDeal>>();
+            deals[(data as MessGetDeals).Key.Market] = (data as MessGetDeals)?.Value;
 
             try
             {
@@ -540,12 +580,15 @@ namespace TestForm
                 {
                     dgDeals.DataSource = null;
 
-                    if (lbMarkets.SelectedItem == null) return;
+                    if (deals == null) return;
 
-                    if (deals.TryGetValue(lbMarkets.SelectedItem?.ToString(), out ValueDeals value))
+                    var market = GetMarket(true);
+                    if (market == MarketType.Empty) return;
+
+                    if (deals.TryGetValue(market, out List<DataDeal> data))
                     {
                         dgDeals.AutoGenerateColumns = true;
-                        dgDeals.DataSource = value.Orders?.ToList();
+                        dgDeals.DataSource = data;
                     }
                 }));
             }

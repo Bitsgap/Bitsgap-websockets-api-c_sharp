@@ -1,5 +1,6 @@
 ﻿using API.WebSocket.Model.Blocks.Values;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace API.WebSocket.Model.Get
 {
@@ -9,6 +10,6 @@ namespace API.WebSocket.Model.Get
         /// Data by key
         /// </summary>
         [JsonProperty("value")]
-        public ValueBalances Value { get; set; }
+        public Dictionary<string, DataBalances> Value { get; set; }
     }
 }
