@@ -38,18 +38,25 @@ namespace API.Utils
         }
 
         /// <summary>
-        /// Get enum by string attribute
+        /// Get enum by string attribute. 
+        /// If description is not valid, returns empty value
         /// </summary>
         public static T GetEnum<T>(string description) where T : struct
         {
-            return (T)Enum.Parse(typeof(T), 
-                typeof(T)
-                .GetRuntimeFields()
-                ?.FirstOrDefault(x => 
-                    x.CustomAttributes.Count() > 0 && 
-                    (x.CustomAttributes.FirstOrDefault().NamedArguments.FirstOrDefault().TypedValue.Value as string == description))
-                    .Name
-               );
+            var result = typeof(T).GetRuntimeFields()?.FirstOrDefault(
+                x =>
+                x.CustomAttributes.Count() > 0 &&
+                (x.CustomAttributes.FirstOrDefault().NamedArguments.FirstOrDefault().TypedValue.Value as string == description)
+                )?.Name
+                ??
+                // use null for unknown value 
+                typeof(T).GetRuntimeFields()?.FirstOrDefault(
+                    x =>
+                    x.CustomAttributes.Count() > 0 &&
+                    (x.CustomAttributes.FirstOrDefault().NamedArguments.FirstOrDefault().TypedValue.Value as string == null)
+                    )?.Name;
+
+            return (T)Enum.Parse(typeof(T), result);
         }
     }
 }

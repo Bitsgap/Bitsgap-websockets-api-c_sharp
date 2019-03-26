@@ -8,19 +8,13 @@ namespace API.WebSocket.Model.Blocks.Values
     class ValueOrders : ValueBase
     {
         /// <summary>
-        /// Last update time, UTS with UTC+00:00
-        /// </summary>
-        [JsonProperty("uts")]
-        public decimal Time { get; set; }
-
-        /// <summary>
         /// Orders data
         /// </summary>
-        [JsonProperty("orders")]
-        public List<OrdersData> Orders { get; set; }
+        [JsonProperty("value")]
+        public List<DataOrder> Value { get; set; }
     }
 
-    public class OrdersData
+    public class DataOrder
     {
         /// <summary>
         /// Bitsgap order id
@@ -63,7 +57,7 @@ namespace API.WebSocket.Model.Blocks.Values
         /// <summary>
         /// Remaining order amount
         /// </summary>
-        [JsonProperty("volume")]
+        [JsonProperty("amount")]
         public string Amount { get; set; }
 
         /// <summary>
@@ -96,41 +90,5 @@ namespace API.WebSocket.Model.Blocks.Values
         /// </summary>
         [JsonProperty("api_guid", NullValueHandling = NullValueHandling.Ignore)]
         public string API_GUID { get; set; }
-
-        /// <summary>
-        /// Flag: 1 = Order placed via Bitsgap
-        /// </summary>
-        [JsonProperty("our", NullValueHandling = NullValueHandling.Ignore)]
-        public int? OurOrder { get; set; }
-
-        /// <summary>
-        /// Creation time, UTS with UTC+00:00
-        /// </summary>
-        [JsonProperty("created", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? Created { get; set; }
-
-        /// <summary>
-        /// Last modified time, UTS with UTC+00:00
-        /// </summary>
-        [JsonProperty("last", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? Last { get; set; }
-
-        /// <summary>
-        /// Service variable, used for bitsgap
-        /// </summary>
-        [JsonProperty("sltp", NullValueHandling = NullValueHandling.Ignore)]
-        public dynamic StopData { get; set; }
-
-        /// <summary>
-        /// Service variable, used for bitsgap
-        /// </summary>
-        [JsonProperty("task_sltp", NullValueHandling = NullValueHandling.Ignore)]
-        public dynamic TaskSLTP { get; set; }
-
-        /// <summary>
-        /// Service variable, used for bitsgap
-        /// </summary>
-        [JsonProperty("key", NullValueHandling = NullValueHandling.Ignore)]
-        public string Key { get; set; }
     }
 }

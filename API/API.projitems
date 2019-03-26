@@ -18,7 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\OrderType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Enums\ProcType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Enums\SubsType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Enums\SysType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\SysType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Enums\ActionType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\SKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebSocket\Model\Blocks\Values\ValueBalances.cs" />

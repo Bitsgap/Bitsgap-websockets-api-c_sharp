@@ -9,6 +9,6 @@ namespace API.WebSocket.Model.Get
         /// Data by key
         /// </summary>
         [JsonProperty("value")]
-        public BalancesData Value { get; set; }
+        public DataBalances Value { get; set; }
     }
 }

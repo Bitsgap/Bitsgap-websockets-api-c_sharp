@@ -8,31 +8,19 @@ namespace API.WebSocket.Model.Blocks.Values
     class ValueDeals : ValueBase
     {
         /// <summary>
-        /// Last update time, UTS with UTC+00:00
-        /// </summary>
-        [JsonProperty("uts")]
-        public decimal Time { get; set; }
-
-        /// <summary>
         /// Deals data
         /// </summary>
-        [JsonProperty("orders")]
-        public List<DealsData> Orders { get; set; }
+        [JsonProperty("value")]
+        public List<DataDeal> Value { get; set; }
     }
 
-    public class DealsData
+    public class DataDeal
     {
         /// <summary>
         /// Market order id
         /// </summary>
         [JsonProperty("id")]
         public string OrderID { get; set; }
-
-        /// <summary>
-        /// Get time, UTS with UTC+00:00
-        /// </summary>
-        [JsonProperty("time")]
-        public decimal Time { get; set; }
 
         /// <summary>
         /// Bitsgap pair
@@ -96,11 +84,5 @@ namespace API.WebSocket.Model.Blocks.Values
         /// </summary>
         [JsonProperty("last", NullValueHandling = NullValueHandling.Ignore)]
         public decimal? Last { get; set; }
-
-        /// <summary>
-        /// Service variable, used for bitsgap
-        /// </summary>
-        [JsonProperty("sid", NullValueHandling = NullValueHandling.Ignore)]
-        public string SID { get; set; }
     }
 }

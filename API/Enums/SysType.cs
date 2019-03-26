@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace API.WebSocket.Enums
+namespace API.Enums
 {
     /// <summary>
     /// Types of systems
